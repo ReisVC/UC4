@@ -43,6 +43,19 @@ var Equipamento = /** @class */ (function () {
     }
     return Equipamento;
 }());
+var Sala = /** @class */ (function () {
+    function Sala(numero, equipamento, instrutor, capacidade) {
+        this.numero = numero;
+        this.equipamento = equipamento;
+        this.instrutor = instrutor;
+        this.capacidade = capacidade;
+        this.listaPresenca = [];
+    }
+    Sala.prototype.marcarPresenca = function (aluno) {
+        this.listaPresenca.push(aluno);
+    };
+    return Sala;
+}());
 var instrutor1 = new Instrutor('Muzy', 'Musculação', new Date('1982-04-12'));
 var supino = new Treino('Supino', 'Peito', 4, 20);
 var rosca = new Treino('Rosca', 'Bíceps', 3, 12);
@@ -50,6 +63,9 @@ var leg = new Treino('Leg Press', 'Pernas', 4, 15);
 var equipamento1 = new Equipamento('Flexora', 10, '120x150', 150);
 var equipamento2 = new Equipamento('Esteira', 30, '150x130', 200);
 var equipamento3 = new Equipamento('Bicicleta', 10, '120x120', 130);
+var sala1 = new Sala(10, equipamento1, instrutor1, 30);
 var aluno1 = new Aluno('Vitor', instrutor1, Plano.anual, 'Musculação');
+var aluno2 = new Aluno('Luut', instrutor1, Plano.mensal, 'Pilates');
+sala1.marcarPresenca(aluno1);
 aluno1.cadastroTreino(supino);
 aluno1.cadastroTreino(rosca);

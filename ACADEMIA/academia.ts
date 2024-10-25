@@ -18,6 +18,7 @@ enum Plano
     anual
 }
 
+
 class Treino
 {
     nome: string
@@ -69,6 +70,19 @@ class Equipamento
     }
 }
 
+class Sala
+{
+    listaPresenca: Array<Aluno> = []
+
+    constructor(public numero: number, public equipamento: Equipamento, public instrutor: Instrutor, public capacidade: number) {
+    }
+    
+    marcarPresenca(aluno: Aluno) {
+        this.listaPresenca.push(aluno)
+    }
+
+}
+
 let instrutor1: Instrutor = new Instrutor('Muzy', 'Musculação', new Date('1982-04-12'))
 
 let supino: Treino = new Treino('Supino', 'Peito', 4, 20)
@@ -79,7 +93,11 @@ let equipamento1: Equipamento = new Equipamento('Flexora', 10, '120x150', 150)
 let equipamento2: Equipamento = new Equipamento('Esteira', 30, '150x130', 200)
 let equipamento3: Equipamento = new Equipamento('Bicicleta', 10, '120x120', 130)
 
+let sala1: Sala = new Sala(10, equipamento1, instrutor1, 30)
 let aluno1: Aluno = new Aluno('Vitor', instrutor1, Plano.anual, 'Musculação')
+let aluno2: Aluno = new Aluno('Luut', instrutor1, Plano.mensal, 'Pilates')
+
+sala1.marcarPresenca(aluno1)
 aluno1.cadastroTreino(supino)
 aluno1.cadastroTreino(rosca)
 
