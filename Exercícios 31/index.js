@@ -48,6 +48,9 @@ var Bard = /** @class */ (function (_super) {
     Bard.prototype.castSkill = function () {
         console.log("The ".concat(this.name, " played the berimbau"));
     };
+    Bard.prototype.playEletricGuitar = function () {
+        console.log("The ".concat(this.name, " played the greatest guitar solo of the world!"));
+    };
     return Bard;
 }(Character));
 var Paladin = /** @class */ (function (_super) {
@@ -81,6 +84,8 @@ var Doppelganger = /** @class */ (function (_super) {
 var bard = new Bard();
 bard.name = 'Jimmy Hendrix';
 bard.castSkill();
+bard.playEletricGuitar();
+bard.defend();
 var paladin = new Paladin();
 paladin.name = 'Leroy Jenckens';
 paladin.castSkill();

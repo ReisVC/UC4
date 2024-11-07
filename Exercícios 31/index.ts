@@ -37,6 +37,10 @@ class Bard extends Character
     castSkill(): void {
         console.log(`The ${this.name} played the berimbau`)
     }
+
+    playEletricGuitar(): void {
+        console.log(`The ${this.name} played the greatest guitar solo of the world!`)
+    }
 }
 
 class Paladin extends Character
@@ -49,7 +53,7 @@ class Paladin extends Character
 class Doppelganger extends Character
 {
     castSkill(): void {
-        console.log(`The ${this.name} played the berimbau`)
+        console.log(`The ${this.name} copied the enemy's techniques`)
     }
 
     transform(character?:string): void;
@@ -63,10 +67,11 @@ class Doppelganger extends Character
 }
 
 
-
 let bard: Bard = new Bard()
 bard.name = 'Jimmy Hendrix'
 bard.castSkill()
+bard.playEletricGuitar()
+bard.defend()
 
 let paladin: Paladin = new Paladin()
 paladin.name = 'Leroy Jenckens'
