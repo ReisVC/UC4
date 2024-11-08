@@ -9,7 +9,6 @@ class ItemLibrary
 }
 
 class Book extends ItemLibrary {
-// Título, autor, ISBN, número de páginas, gênero (ficção, não-ficção, etc.).
     author: string = ''
     isbn: string = ''
     numberPages: number = 0
