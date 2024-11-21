@@ -76,7 +76,7 @@ class Passenger
         this.ticketList.forEach(element => {
             totalPrice += element.ticketPrice
         });
-
+        
         return `The ${this.name} spent the total ${totalPrice}`
     }
 
