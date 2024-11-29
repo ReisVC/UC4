@@ -47,6 +47,9 @@ var Card = /** @class */ (function () {
         this.expiration = expiration;
         this.cvv = cvv;
     }
+    Card.prototype.getCard = function () {
+        return "Number: ".concat(this.cardNumber, " \nFlag: ").concat(this.flag, " \nExpiration Date: ").concat(this.expiration, " \nCVV: ").concat(this.cvv);
+    };
     return Card;
 }());
 var ContractorClient = /** @class */ (function (_super) {

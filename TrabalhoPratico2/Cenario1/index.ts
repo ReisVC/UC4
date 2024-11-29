@@ -39,6 +39,10 @@ class Card
         private cvv: string) {
 
     }
+
+    public getCard(): string {
+        return `Number: ${this.cardNumber} \nFlag: ${this.flag} \nExpiration Date: ${this.expiration} \nCVV: ${this.cvv}`
+    }
 }
 
 class ContractorClient extends Client
