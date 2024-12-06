@@ -199,7 +199,7 @@ let suplly = new Suplly(client1, gas, client1.getVehicle(), 10)
 let supply2 = new Suplly(client2, added, client2.getVehicle(2), 250)
 
 console.log(supply2.paymentFuel(23141))
-console.log(added.getQuantity())
+console.log(added.getQuantity()'')
 
 
 console.log(suplly.paymentFuel(143134))
