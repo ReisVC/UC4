@@ -23,6 +23,10 @@ class Client
   public addInvoice(invoice: Invoice): void {
     this.invoiceList.push(invoice)
   }
+
+  public getInvoice():Array<Invoice> {
+    return this.invoiceList;
+  }
 }
 
 class Vehicle {
@@ -71,6 +75,10 @@ class FleetClient extends Client
       this.vehicleList.push(vehicle);
     });
   }
+
+  public getVehicle(i: number): Vehicle {
+    return this.vehicleList[i];
+  }
 }
 
 enum Type 
@@ -117,6 +125,10 @@ class Fuel
   public reduceGas(quantity: number): void {
     this.quantity -= quantity
   }
+
+  public getQuantity(): number {
+    return this.quantity;
+  }
 }
 
 class Invoice 
@@ -159,8 +171,7 @@ class Suplly
         this.client.addInvoice(invoice)
         this.fuel.reduceGas(this.quantity)
 
-        return `The ${this.client.getName()} filled up the vehicle and paid ${this.calculatePrice()} for 
-        ${this.quantity} liters for ${this.fuel.getType()}`
+        return `The ${this.client.getName()} filled up the vehicle and paid ${this.calculatePrice()} for ${this.quantity} liters for ${this.fuel.getType()}`
     }
 }
 
@@ -173,7 +184,7 @@ let vehicle4 = new Vehicle("Ford Fiesta", "MJS-2349", 1998, "White");
 
 let client1 = new CommomClient(vehicle1)
 client1.setName('Vitor')
-// client1.setVehicle(vehicle1)
+client1.setVehicle(vehicle1)
 
 let client2 = new FleetClient()
 client2.setName('Vitória')
@@ -185,4 +196,11 @@ let added = new Fuel(Type.added, 500);
 
 let suplly = new Suplly(client1, gas, client1.getVehicle(), 10)
 
+let supply2 = new Suplly(client2, added, client2.getVehicle(2), 250)
+
+console.log(supply2.paymentFuel(23141))
+console.log(added.getQuantity())
+
+
 console.log(suplly.paymentFuel(143134))
+console.log(client1.getInvoice())
