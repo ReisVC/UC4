@@ -14,139 +14,263 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-// Trabalho Avaliativo Final POO
 var Character = /** @class */ (function () {
     function Character() {
     }
+    Character.prototype.attack = function (enemies) {
+        return "".concat(this.name, " attacked the zombie ").concat(enemies.name);
+    };
+    Character.prototype.defend = function (enemies) {
+        return "The ".concat(this.name, " defend himself from the zombie ").concat(enemies.name);
+    };
+    Character.prototype.escape = function () {
+        return "The ".concat(this.name, " was escaped from the zombies");
+    }; // Classe Abstrata
     return Character;
-}()); // Classe Abstrata
+}());
 var EliteSniper = /** @class */ (function (_super) {
     __extends(EliteSniper, _super);
-    function EliteSniper() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function EliteSniper(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    EliteSniper.prototype.ability = function () {
+        return 'The Sniper used the special shoot. One bullet, One Kill!';
+    };
     return EliteSniper;
 }(Character));
 var Medic = /** @class */ (function (_super) {
     __extends(Medic, _super);
-    function Medic() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Medic(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Medic.prototype.ability = function () {
+        return 'The Doctor used the healing skill. Merthiolate.';
+    };
     return Medic;
 }(Character));
 var Explorer = /** @class */ (function (_super) {
     __extends(Explorer, _super);
-    function Explorer() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Explorer(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Explorer.prototype.ability = function () {
+        return 'The Explorer used the recon skill. Look the little airplane.';
+    };
     return Explorer;
 }(Character));
 var Survivalist = /** @class */ (function (_super) {
     __extends(Survivalist, _super);
-    function Survivalist() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Survivalist(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Survivalist.prototype.ability = function () {
+        return 'The Survivalist used the camping skill. He had a tent set up.';
+    };
     return Survivalist;
 }(Character));
 var Cooker = /** @class */ (function (_super) {
     __extends(Cooker, _super);
-    function Cooker() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Cooker(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Cooker.prototype.ability = function () {
+        return "The Cooker used the eggs skill. Roast lamb testicles.";
+    };
     return Cooker;
 }(Character));
 var Cientist = /** @class */ (function (_super) {
     __extends(Cientist, _super);
-    function Cientist() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Cientist(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Cientist.prototype.ability = function () {
+        return 'The Cientist used the chemical skill. He creates Trembomb.';
+    };
     return Cientist;
 }(Character));
-var Inventory = /** @class */ (function () {
-    function Inventory() {
+var Squad = /** @class */ (function () {
+    function Squad(medic, cooker, sniper, survivalist, explorer, cientist) {
+        this.listChar = [];
+        this.medic = medic;
+        this.cooker = cooker;
+        this.sniper = sniper;
+        this.survivalist = survivalist;
+        this.explorer = explorer;
+        this.cientist = cientist;
+        this.listChar.push(medic, cooker, sniper, survivalist, explorer, cientist);
     }
-    return Inventory;
-}()); // Lista de Itens e Equipamentos
-var Equipment = /** @class */ (function () {
-    function Equipment() {
-    }
-    return Equipment;
+    Squad.prototype.randChar = function () {
+        var rand = Math.floor(Math.random() * this.listChar.length);
+        return this.listChar[rand];
+    };
+    return Squad;
 }());
-var Items = /** @class */ (function () {
-    function Items() {
+var Scenario = /** @class */ (function () {
+    function Scenario(biome, description) {
+        this.biome = biome;
+        this.description = description;
     }
-    return Items;
-}());
-var Consumables = /** @class */ (function (_super) {
-    __extends(Consumables, _super);
-    function Consumables() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return Consumables;
-}(Items)); // Especialização dos Itens em acessórios e armas
-var Accessories = /** @class */ (function (_super) {
-    __extends(Accessories, _super);
-    function Accessories() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return Accessories;
-}(Items));
-var Weapons = /** @class */ (function (_super) {
-    __extends(Weapons, _super);
-    function Weapons() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    return Weapons;
-}(Items));
-var Scenarios = /** @class */ (function () {
-    function Scenarios() {
-    }
-    return Scenarios;
+    return Scenario;
 }()); // Cenários onde estarão os personagens
+var Battlefield = /** @class */ (function () {
+    function Battlefield() {
+        this.listScene = [];
+        this.listZombies = [];
+        this.listSquad = [];
+    }
+    Battlefield.prototype.randScene = function () {
+        var rand = Math.floor(Math.random() * this.listScene.length);
+        return this.listScene[rand];
+    };
+    Battlefield.prototype.randZombie = function () {
+        var rand = Math.floor(Math.random() * this.listZombies.length);
+        return this.listZombies[rand];
+    };
+    Battlefield.prototype.randSquad = function () {
+        var rand = Math.floor(Math.random() * this.listSquad.length);
+        var squad = this.listSquad[rand];
+        return squad.randChar();
+    };
+    Battlefield.prototype.round = function () {
+        var scene = this.randScene();
+        console.log(scene);
+        for (var i = 0; i < 6; i++) {
+            var randChar = Math.floor(Math.random() * 2);
+            var randAttack = Math.floor(Math.random() * 2);
+            if (randChar == 0) {
+                if (randAttack == 0) {
+                    console.log(this.randZombie().attack(this.randSquad()));
+                }
+                else {
+                    console.log(this.randZombie().ability());
+                }
+            }
+            else {
+                if (randAttack == 0) {
+                    console.log(this.randSquad().attack(this.randZombie()));
+                }
+                else {
+                    console.log(this.randSquad().ability());
+                }
+            }
+        }
+    };
+    return Battlefield;
+}());
 var Zombie = /** @class */ (function () {
     function Zombie() {
     }
+    Zombie.prototype.attack = function (char) {
+        return "The Zombie ".concat(this.name, " attacked ").concat(char.name);
+    };
     return Zombie;
 }());
 var Normal = /** @class */ (function (_super) {
     __extends(Normal, _super);
-    function Normal() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Normal(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Normal.prototype.ability = function () {
+        return "The zombie ".concat(this.name, " scratches.");
+    };
     return Normal;
 }(Zombie));
 var Runner = /** @class */ (function (_super) {
     __extends(Runner, _super);
-    function Runner() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Runner(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Runner.prototype.ability = function () {
+        return "The Runner ".concat(this.name, " does \"Katchau\" for the battlefield.");
+    };
     return Runner;
 }(Zombie));
 var Tank = /** @class */ (function (_super) {
     __extends(Tank, _super);
-    function Tank() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Tank(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Tank.prototype.ability = function () {
+        return "The Tank Zombie defends his territory";
+    };
     return Tank;
 }(Zombie));
 var Explosive = /** @class */ (function (_super) {
     __extends(Explosive, _super);
-    function Explosive() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Explosive(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Explosive.prototype.ability = function () {
+        return "Instead of him doing \"Katchau\" he does \"kaboom\"";
+    };
     return Explosive;
 }(Zombie));
 var Dog = /** @class */ (function (_super) {
     __extends(Dog, _super);
-    function Dog() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Dog(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Dog.prototype.ability = function () {
+        return "The Dog Zombie was bite.";
+    };
     return Dog;
 }(Zombie));
 var Acid = /** @class */ (function (_super) {
     __extends(Acid, _super);
-    function Acid() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    function Acid(name) {
+        var _this = _super.call(this) || this;
+        _this.name = name;
+        return _this;
     }
+    Acid.prototype.ability = function () {
+        return "The Acid Zombie gets high.";
+    };
     return Acid;
 }(Zombie));
+var cooker = new Cooker('Sponge Bob');
+var medic = new Medic('Desmond Doss');
+var sniper = new EliteSniper('John Wick');
+var survivalist = new Survivalist('Rambo');
+var explorer = new Explorer('Bear Grills');
+var cientist = new Cientist('Heisemberg');
+var zombie = new Normal('Michael Jackson');
+var runner = new Runner('Thunder Marquinhos');
+var tank = new Tank('Scherman');
+var explosive = new Explosive('Kamikaze');
+var dog = new Dog('Marley');
+var acid = new Acid('Ilon Mãsk');
+var city = new Scenario("Urban", "City Center");
+var forest = new Scenario("Forest", "Large Dense Forest");
+var farm = new Scenario("Farm Berry", "Rural Territoy");
+var squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist);
+var battle = new Battlefield();
+battle.listScene.push(city, forest, farm);
+battle.listZombies.push(zombie, runner, tank, explosive, dog, acid);
+battle.listSquad.push(squad);
+// console.log(battle.round())
+// console.log(battle.randZombie())
+// console.log(battle.randScene())
+// console.log(battle.randSquad())
+battle.round();
