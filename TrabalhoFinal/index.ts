@@ -19,7 +19,7 @@ abstract class Character implements ICharacter{
         return `The ${this.name} defend himself from the zombie ${enemies.name}`;
     }
     escape(): string {
-        return `The ${this.name} was escaped from the zombies`;
+        return `The ${this.name} was escaped from horde of zombies`;
     } // Classe Abstrata
     
     abstract ability(): string
@@ -130,6 +130,10 @@ class Squad implements ISquad{
         let rand = Math.floor(Math.random()*this.listChar.length)
         return this.listChar[rand]
     }
+
+    removeCharacter(): void {
+
+    }
 }
 
 class Scenario{
@@ -158,35 +162,43 @@ class Battlefield {
         return this.listZombies[rand]
     }
 
-    randSquad(): Character {
+    charSquad(): Character {
         let rand = Math.floor(Math.random()*this.listSquad.length)
         let squad = this.listSquad[rand]
         return squad.randChar()
     }
 
+  
     round() {
         let scene = this.randScene()
         console.log(scene)
 
-        for(let i = 0; i < 6; i++) {
+        
+        for(let i = 0; i < 10; i++) {
+                            
+            setTimeout(()=> { 
             let randChar = Math.floor(Math.random()*2)
-            let randAttack = Math.floor(Math.random()*2)
+            let randAttack = Math.floor(Math.random()*5)
 
-
+            
             if(randChar == 0) {
-                if(randAttack == 0) {
-                    console.log(this.randZombie().attack(this.randSquad()))
+                if(randAttack <= 2) {
+                    console.log(this.randZombie().attack(this.charSquad()))
+
                 } else {
                     console.log(this.randZombie().ability())
-                }
+                } 
             } else {
-                if(randAttack == 0) {
-                    console.log(this.randSquad().attack(this.randZombie()))
+                if(randAttack <= 2) {
+                    console.log(this.charSquad().attack(this.randZombie()))
+                } else if (randAttack == 3){
+                    console.log(this.charSquad().ability())
                 } else {
-                    console.log(this.randSquad().ability())
-                }
-                
-            }
+                    let charSelected = this.charSquad()
+                    console.log(charSelected.escape())
+                    this.listSquad
+                }                
+            }}, 500*i)
         }
     }
 
@@ -292,7 +304,7 @@ let acid = new Acid('Ilon Mãsk')
 
 let city = new Scenario("Urban", "City Center")
 let forest = new Scenario("Forest", "Large Dense Forest")
-let farm = new Scenario("Farm Berry", "Rural Territoy")
+let farm = new Scenario("Farm Berry", "Rural Territory")
 
 let squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist)
 

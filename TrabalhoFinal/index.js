@@ -24,7 +24,7 @@ var Character = /** @class */ (function () {
         return "The ".concat(this.name, " defend himself from the zombie ").concat(enemies.name);
     };
     Character.prototype.escape = function () {
-        return "The ".concat(this.name, " was escaped from the zombies");
+        return "The ".concat(this.name, " was escaped from horde of zombies");
     }; // Classe Abstrata
     return Character;
 }());
@@ -115,6 +115,8 @@ var Squad = /** @class */ (function () {
         var rand = Math.floor(Math.random() * this.listChar.length);
         return this.listChar[rand];
     };
+    Squad.prototype.removeCharacter = function () {
+    };
     return Squad;
 }());
 var Scenario = /** @class */ (function () {
@@ -138,33 +140,41 @@ var Battlefield = /** @class */ (function () {
         var rand = Math.floor(Math.random() * this.listZombies.length);
         return this.listZombies[rand];
     };
-    Battlefield.prototype.randSquad = function () {
+    Battlefield.prototype.charSquad = function () {
         var rand = Math.floor(Math.random() * this.listSquad.length);
         var squad = this.listSquad[rand];
         return squad.randChar();
     };
     Battlefield.prototype.round = function () {
+        var _this = this;
         var scene = this.randScene();
         console.log(scene);
-        for (var i = 0; i < 6; i++) {
-            var randChar = Math.floor(Math.random() * 2);
-            var randAttack = Math.floor(Math.random() * 2);
-            if (randChar == 0) {
-                if (randAttack == 0) {
-                    console.log(this.randZombie().attack(this.randSquad()));
+        for (var i = 0; i < 10; i++) {
+            setTimeout(function () {
+                var randChar = Math.floor(Math.random() * 2);
+                var randAttack = Math.floor(Math.random() * 5);
+                if (randChar == 0) {
+                    if (randAttack <= 2) {
+                        console.log(_this.randZombie().attack(_this.charSquad()));
+                    }
+                    else {
+                        console.log(_this.randZombie().ability());
+                    }
                 }
                 else {
-                    console.log(this.randZombie().ability());
+                    if (randAttack <= 2) {
+                        console.log(_this.charSquad().attack(_this.randZombie()));
+                    }
+                    else if (randAttack == 3) {
+                        console.log(_this.charSquad().ability());
+                    }
+                    else {
+                        var charSelected = _this.charSquad();
+                        console.log(charSelected.escape());
+                        _this.listSquad;
+                    }
                 }
-            }
-            else {
-                if (randAttack == 0) {
-                    console.log(this.randSquad().attack(this.randZombie()));
-                }
-                else {
-                    console.log(this.randSquad().ability());
-                }
-            }
+            }, 500 * i);
         }
     };
     return Battlefield;
@@ -263,7 +273,7 @@ var dog = new Dog('Marley');
 var acid = new Acid('Ilon Mãsk');
 var city = new Scenario("Urban", "City Center");
 var forest = new Scenario("Forest", "Large Dense Forest");
-var farm = new Scenario("Farm Berry", "Rural Territoy");
+var farm = new Scenario("Farm Berry", "Rural Territory");
 var squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist);
 var battle = new Battlefield();
 battle.listScene.push(city, forest, farm);
