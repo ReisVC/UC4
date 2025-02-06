@@ -145,33 +145,51 @@ var Battlefield = /** @class */ (function () {
         var squad = this.listSquad[rand];
         return squad.randChar();
     };
+    Battlefield.prototype.compareChars = function (element2) {
+        var rand = this.charSquad();
+        var confirmation = true;
+        while (confirmation) {
+            for (var i = 0; i <= element2.length; i++) {
+                if (rand === element2[i]) {
+                    rand = this.charSquad();
+                }
+                else {
+                    confirmation = false;
+                }
+            }
+        }
+        confirmation = true;
+        return rand;
+    };
     Battlefield.prototype.round = function () {
         var _this = this;
         var scene = this.randScene();
         console.log(scene);
-        for (var i = 0; i < 10; i++) {
+        var escapedChars = [];
+        for (var i = 0; i < 20; i++) {
             setTimeout(function () {
                 var randChar = Math.floor(Math.random() * 2);
                 var randAttack = Math.floor(Math.random() * 5);
+                var randomChar = _this.compareChars(escapedChars);
+                var randomZombie = _this.randZombie();
                 if (randChar == 0) {
                     if (randAttack <= 2) {
-                        console.log(_this.randZombie().attack(_this.charSquad()));
+                        console.log(randomZombie.attack(randomChar));
                     }
                     else {
-                        console.log(_this.randZombie().ability());
+                        console.log(randomZombie.ability());
                     }
                 }
                 else {
                     if (randAttack <= 2) {
-                        console.log(_this.charSquad().attack(_this.randZombie()));
+                        console.log(randomChar.attack(randomZombie));
                     }
                     else if (randAttack == 3) {
-                        console.log(_this.charSquad().ability());
+                        console.log(randomChar.ability());
                     }
                     else {
-                        var charSelected = _this.charSquad();
-                        console.log(charSelected.escape());
-                        _this.listSquad;
+                        console.log(randomChar.escape());
+                        escapedChars.push(randomChar);
                     }
                 }
             }, 500 * i);

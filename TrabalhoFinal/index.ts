@@ -168,35 +168,54 @@ class Battlefield {
         return squad.randChar()
     }
 
+    compareChars(element2: Array<Character>) {
+        let rand = this.charSquad()
+        let confirmation = true
+
+        while(confirmation) {
+            for(let i = 0; i <= element2.length; i++) {
+                if(rand === element2[i]) {
+                    rand = this.charSquad()
+                } else {  
+                    confirmation = false;
+                    
+                }
+            }
+        }
+        confirmation = true
+        return rand
+    }
+
   
     round() {
         let scene = this.randScene()
         console.log(scene)
-
+        let escapedChars: Array<Character> = []
         
-        for(let i = 0; i < 10; i++) {
+        for(let i = 0; i < 20; i++) {
                             
             setTimeout(()=> { 
             let randChar = Math.floor(Math.random()*2)
             let randAttack = Math.floor(Math.random()*5)
 
-            
+            let randomChar: Character = this.compareChars(escapedChars)
+            let randomZombie = this.randZombie()
+
             if(randChar == 0) {
                 if(randAttack <= 2) {
-                    console.log(this.randZombie().attack(this.charSquad()))
-
+                    console.log(randomZombie.attack(randomChar))
                 } else {
-                    console.log(this.randZombie().ability())
+                    console.log(randomZombie.ability())
                 } 
             } else {
                 if(randAttack <= 2) {
-                    console.log(this.charSquad().attack(this.randZombie()))
+
+                    console.log(randomChar.attack(randomZombie))
                 } else if (randAttack == 3){
-                    console.log(this.charSquad().ability())
+                    console.log(randomChar.ability())
                 } else {
-                    let charSelected = this.charSquad()
-                    console.log(charSelected.escape())
-                    this.listSquad
+                    console.log(randomChar.escape())
+                    escapedChars.push(randomChar)
                 }                
             }}, 500*i)
         }
