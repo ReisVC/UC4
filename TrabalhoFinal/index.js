@@ -117,10 +117,12 @@ var Squad = /** @class */ (function () {
         this.cientist = cientist;
         this.listChar.push(medic, cooker, sniper, survivalist, explorer, cientist);
     }
+    // Método que seleciona um personagem aleatório da lista
     Squad.prototype.randChar = function () {
         var rand = Math.floor(Math.random() * this.listChar.length);
         return this.listChar[rand];
     };
+    // Método que remove personagem da lista
     Squad.prototype.removeCharacter = function (element) {
         for (var i = 0; i < this.listChar.length; i++) {
             if (element.name == this.listChar[i].name) {
@@ -167,7 +169,7 @@ var Battlefield = /** @class */ (function () {
         var rand = Math.floor(Math.random() * this.listZombies.length);
         return this.listZombies[rand];
     };
-    // Método para selecionar um personagem aleatório da lista
+    // Método para selecionar um esquadrão aleatório e retorna um personagem
     Battlefield.prototype.charSquad = function () {
         var rand = Math.floor(Math.random() * this.listSquad.length);
         var squad = this.listSquad[rand];

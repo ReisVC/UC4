@@ -137,11 +137,13 @@ class Squad implements ISquad{
 
     }
 
+    // Método que seleciona um personagem aleatório da lista
     public randChar(): Character {
         let rand = Math.floor(Math.random()*this.listChar.length)
         return this.listChar[rand]
     }
 
+    // Método que remove personagem da lista
     public removeCharacter(element: Character): void {
         for(let i = 0; i < this.listChar.length; i++) {
             if(element.name == this.listChar[i].name) {
@@ -195,7 +197,7 @@ class Battlefield {
         return this.listZombies[rand]
     }
 
-    // Método para selecionar um personagem aleatório da lista
+    // Método para selecionar um esquadrão aleatório e retorna um personagem
     private charSquad(): Character {
         let rand = Math.floor(Math.random()*this.listSquad.length)
         let squad = this.listSquad[rand]
