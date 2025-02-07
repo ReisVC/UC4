@@ -115,7 +115,12 @@ var Squad = /** @class */ (function () {
         var rand = Math.floor(Math.random() * this.listChar.length);
         return this.listChar[rand];
     };
-    Squad.prototype.removeCharacter = function () {
+    Squad.prototype.removeCharacter = function (element) {
+        for (var i = 0; i < this.listChar.length; i++) {
+            if (element.name == this.listChar[i].name) {
+                this.listChar.splice(i, 1);
+            }
+        }
     };
     return Squad;
 }());
@@ -132,6 +137,15 @@ var Battlefield = /** @class */ (function () {
         this.listZombies = [];
         this.listSquad = [];
     }
+    Battlefield.prototype.addScene = function (scene) {
+        this.listScene.push(scene);
+    };
+    Battlefield.prototype.addZombie = function (zombie) {
+        this.listZombies.push(zombie);
+    };
+    Battlefield.prototype.addSquad = function (squad) {
+        this.listSquad.push(squad);
+    };
     Battlefield.prototype.randScene = function () {
         var rand = Math.floor(Math.random() * this.listScene.length);
         return this.listScene[rand];
@@ -145,32 +159,32 @@ var Battlefield = /** @class */ (function () {
         var squad = this.listSquad[rand];
         return squad.randChar();
     };
-    Battlefield.prototype.compareChars = function (element2) {
-        var rand = this.charSquad();
-        var confirmation = true;
-        while (confirmation) {
-            for (var i = 0; i <= element2.length; i++) {
-                if (rand === element2[i]) {
-                    rand = this.charSquad();
-                }
-                else {
-                    confirmation = false;
-                }
-            }
-        }
-        confirmation = true;
-        return rand;
-    };
+    // compareChars(element2: Array<Character>) {
+    //     let rand = this.charSquad()
+    //     let confirmation = true
+    //     while(confirmation) {
+    //         for(let i = 0; i <= element2.length; i++) {
+    //             if(rand === element2[i]) {
+    //                 rand = this.charSquad()
+    //             } else {  
+    //                 confirmation = false;
+    //             }
+    //         }
+    //     }
+    //     confirmation = true
+    //     return rand
+    // }
     Battlefield.prototype.round = function () {
         var _this = this;
+        var squad = this.listSquad[Math.floor(Math.random() * this.listSquad.length)];
         var scene = this.randScene();
         console.log(scene);
-        var escapedChars = [];
-        for (var i = 0; i < 20; i++) {
+        // let escapedChars: Array<Character> = []
+        for (var i = 0; i < 10; i++) {
             setTimeout(function () {
                 var randChar = Math.floor(Math.random() * 2);
                 var randAttack = Math.floor(Math.random() * 5);
-                var randomChar = _this.compareChars(escapedChars);
+                var randomChar = _this.charSquad();
                 var randomZombie = _this.randZombie();
                 if (randChar == 0) {
                     if (randAttack <= 2) {
@@ -189,7 +203,7 @@ var Battlefield = /** @class */ (function () {
                     }
                     else {
                         console.log(randomChar.escape());
-                        escapedChars.push(randomChar);
+                        squad.removeCharacter(randomChar);
                     }
                 }
             }, 500 * i);
@@ -294,9 +308,16 @@ var forest = new Scenario("Forest", "Large Dense Forest");
 var farm = new Scenario("Farm Berry", "Rural Territory");
 var squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist);
 var battle = new Battlefield();
-battle.listScene.push(city, forest, farm);
-battle.listZombies.push(zombie, runner, tank, explosive, dog, acid);
-battle.listSquad.push(squad);
+battle.addScene(city);
+battle.addScene(forest);
+battle.addScene(farm);
+battle.addZombie(zombie);
+battle.addZombie(runner);
+battle.addZombie(tank);
+battle.addZombie(explosive);
+battle.addZombie(dog);
+battle.addZombie(acid);
+battle.addSquad(squad);
 // console.log(battle.round())
 // console.log(battle.randZombie())
 // console.log(battle.randScene())

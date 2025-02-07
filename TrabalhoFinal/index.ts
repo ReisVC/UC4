@@ -12,13 +12,13 @@ interface ICharacter{
 abstract class Character implements ICharacter{
     abstract name: string
 
-    attack(enemies:Zombie): string {
+    public attack(enemies:Zombie): string {
         return `${this.name} attacked the zombie ${enemies.name}`;
     }
-    defend(enemies:Zombie): string {
+    public defend(enemies:Zombie): string {
         return `The ${this.name} defend himself from the zombie ${enemies.name}`;
     }
-    escape(): string {
+    public escape(): string {
         return `The ${this.name} was escaped from horde of zombies`;
     } // Classe Abstrata
     
@@ -26,73 +26,73 @@ abstract class Character implements ICharacter{
 }   
 
 class EliteSniper extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return 'The Sniper used the special shoot. One bullet, One Kill!';
     }
 }
 class Medic extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return 'The Doctor used the healing skill. Merthiolate.';
     }
 }
 class Explorer extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
-    ability(): string {
+    public ability(): string {
         return 'The Explorer used the recon skill. Look the little airplane.'
     }
 }
 class Survivalist extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
-    ability(): string {
+    public ability(): string {
         return 'The Survivalist used the camping skill. He had a tent set up.'
     }
 }
 class Cooker extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The Cooker used the eggs skill. Roast lamb testicles.`
     }
     
 }
 class Cientist extends Character{
-    name: string
+    public name: string
 
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return 'The Cientist used the chemical skill. He creates Trembomb.'
     }
 }
@@ -115,7 +115,7 @@ class Squad implements ISquad{
     cientist: Cientist;
     listChar:Array<Character> = []
 
-    constructor(medic: Medic, cooker: Cooker, sniper: EliteSniper, survivalist: Survivalist, explorer: Explorer, cientist: Cientist) {
+    public constructor(medic: Medic, cooker: Cooker, sniper: EliteSniper, survivalist: Survivalist, explorer: Explorer, cientist: Cientist) {
         this.medic = medic
         this.cooker = cooker
         this.sniper = sniper
@@ -126,21 +126,25 @@ class Squad implements ISquad{
 
     }
 
-    randChar(): Character {
+    public randChar(): Character {
         let rand = Math.floor(Math.random()*this.listChar.length)
         return this.listChar[rand]
     }
 
-    removeCharacter(): void {
-
+    public removeCharacter(element: Character): void {
+        for(let i = 0; i < this.listChar.length; i++) {
+            if(element.name == this.listChar[i].name) {
+                this.listChar.splice(i, 1)
+            }
+        }
     }
 }
 
 class Scenario{
-    biome: string
-    description: string
+    private biome: string
+    private description: string
 
-    constructor(biome: string, description: string) {
+    public constructor(biome: string, description: string) {
         this.biome = biome
         this.description = description
     }
@@ -148,57 +152,71 @@ class Scenario{
 } // Cenários onde estarão os personagens
 
 class Battlefield {
-    listScene:Array<Scenario> = []
-    listZombies: Array<Zombie> = []
-    listSquad: Array<Squad> = []
+    private listScene:Array<Scenario> = []
+    private listZombies: Array<Zombie> = []
+    private listSquad: Array<Squad> = []
 
-    randScene(): Scenario {
+    public addScene(scene: Scenario): void {
+        this.listScene.push(scene)
+    }
+
+    public addZombie(zombie: Zombie): void {
+        this.listZombies.push(zombie)
+    }
+
+    public addSquad(squad: Squad): void {
+        this.listSquad.push(squad)
+    }
+
+
+    private randScene(): Scenario {
         let rand = Math.floor(Math.random()*this.listScene.length)
         return this.listScene[rand]
     }
 
-    randZombie(): Zombie {
+    private randZombie(): Zombie {
         let rand = Math.floor(Math.random()*this.listZombies.length)
         return this.listZombies[rand]
     }
 
-    charSquad(): Character {
+    private charSquad(): Character {
         let rand = Math.floor(Math.random()*this.listSquad.length)
         let squad = this.listSquad[rand]
         return squad.randChar()
     }
 
-    compareChars(element2: Array<Character>) {
-        let rand = this.charSquad()
-        let confirmation = true
+    // compareChars(element2: Array<Character>) {
+    //     let rand = this.charSquad()
+    //     let confirmation = true
 
-        while(confirmation) {
-            for(let i = 0; i <= element2.length; i++) {
-                if(rand === element2[i]) {
-                    rand = this.charSquad()
-                } else {  
-                    confirmation = false;
+    //     while(confirmation) {
+    //         for(let i = 0; i <= element2.length; i++) {
+    //             if(rand === element2[i]) {
+    //                 rand = this.charSquad()
+    //             } else {  
+    //                 confirmation = false;
                     
-                }
-            }
-        }
-        confirmation = true
-        return rand
-    }
+    //             }
+    //         }
+    //     }
+    //     confirmation = true
+    //     return rand
+    // }
 
   
-    round() {
+    public round() {
+        let squad = this.listSquad[Math.floor(Math.random()*this.listSquad.length)]
         let scene = this.randScene()
         console.log(scene)
-        let escapedChars: Array<Character> = []
+        // let escapedChars: Array<Character> = []
         
-        for(let i = 0; i < 20; i++) {
+        for(let i = 0; i < 10; i++) {
                             
             setTimeout(()=> { 
             let randChar = Math.floor(Math.random()*2)
             let randAttack = Math.floor(Math.random()*5)
 
-            let randomChar: Character = this.compareChars(escapedChars)
+            let randomChar = this.charSquad()
             let randomZombie = this.randZombie()
 
             if(randChar == 0) {
@@ -209,13 +227,12 @@ class Battlefield {
                 } 
             } else {
                 if(randAttack <= 2) {
-
                     console.log(randomChar.attack(randomZombie))
                 } else if (randAttack == 3){
                     console.log(randomChar.ability())
                 } else {
                     console.log(randomChar.escape())
-                    escapedChars.push(randomChar)
+                    squad.removeCharacter(randomChar)
                 }                
             }}, 500*i)
         }
@@ -226,7 +243,7 @@ class Battlefield {
 abstract class Zombie{
     abstract name: string
 
-    attack(char: Character): string {
+    public attack(char: Character): string {
         return `The Zombie ${this.name} attacked ${char.name}`
     }
 
@@ -234,74 +251,74 @@ abstract class Zombie{
 }
 
 class Normal extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The zombie ${this.name} scratches.`
     }
 }
 class Runner extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The Runner ${this.name} does "Katchau" for the battlefield.`
     }
 }
 class Tank extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The Tank Zombie defends his territory`
     }
 }
 class Explosive extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `Instead of him doing "Katchau" he does "kaboom"`
     }
 }
 class Dog extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The Dog Zombie was bite.`
     }
 }
 class Acid extends Zombie{
-    name: string
+    public name: string
     
-    constructor(name: string) {
+    public constructor(name: string) {
         super()
         this.name = name
     }
 
-    ability(): string {
+    public ability(): string {
         return `The Acid Zombie gets high.`
     }
 }
@@ -328,9 +345,20 @@ let farm = new Scenario("Farm Berry", "Rural Territory")
 let squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist)
 
 let battle = new Battlefield()
-battle.listScene.push(city, forest, farm)
-battle.listZombies.push(zombie, runner, tank, explosive, dog, acid)
-battle.listSquad.push(squad)
+
+battle.addScene(city)
+battle.addScene(forest)
+battle.addScene(farm)
+
+battle.addZombie(zombie)
+battle.addZombie(runner)
+battle.addZombie(tank)
+battle.addZombie(explosive)
+battle.addZombie(dog)
+battle.addZombie(acid)
+
+battle.addSquad(squad)
+
 // console.log(battle.round())
 // console.log(battle.randZombie())
 // console.log(battle.randScene())
