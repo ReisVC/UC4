@@ -2,21 +2,19 @@
 
 // Trabalho Avaliativo Final 
 
+// Interface do personagem
 interface ICharacter{
     attack(enemies:Zombie): string
-    defend(enemies:Zombie): string
     escape(): string
-
 }
 
+// Classe abstrata de personagem que implementa interface ICharacter
 abstract class Character implements ICharacter{
     abstract name: string
 
+    // Todo personagem terá ataque, fuga e habilidade
     public attack(enemies:Zombie): string {
         return `${this.name} attacked the zombie ${enemies.name}`;
-    }
-    public defend(enemies:Zombie): string {
-        return `The ${this.name} defend himself from the zombie ${enemies.name}`;
     }
     public escape(): string {
         return `The ${this.name} was escaped from horde of zombies`;
@@ -25,6 +23,7 @@ abstract class Character implements ICharacter{
     abstract ability(): string
 }   
 
+// Classe do atirador que herda de personagem
 class EliteSniper extends Character{
     public name: string
 
@@ -37,6 +36,8 @@ class EliteSniper extends Character{
         return 'The Sniper used the special shoot. One bullet, One Kill!';
     }
 }
+
+// Classe de médico que herda de personagem
 class Medic extends Character{
     public name: string
 
@@ -49,6 +50,8 @@ class Medic extends Character{
         return 'The Doctor used the healing skill. Merthiolate.';
     }
 }
+
+// Classe de explorador que herda de personagem
 class Explorer extends Character{
     public name: string
 
@@ -60,6 +63,8 @@ class Explorer extends Character{
         return 'The Explorer used the recon skill. Look the little airplane.'
     }
 }
+
+// Classe de sobrevivencialista que herda de personagem
 class Survivalist extends Character{
     public name: string
 
@@ -71,6 +76,8 @@ class Survivalist extends Character{
         return 'The Survivalist used the camping skill. He had a tent set up.'
     }
 }
+
+// Classe de cozinheiro que herda de personagem
 class Cooker extends Character{
     public name: string
 
@@ -84,6 +91,8 @@ class Cooker extends Character{
     }
     
 }
+
+// Classe de cientista que herda de personagem
 class Cientist extends Character{
     public name: string
 
@@ -97,6 +106,7 @@ class Cientist extends Character{
     }
 }
 
+// Interface do Esquadrão
 interface ISquad{
     medic: Medic;
     cooker: Cooker;
@@ -106,6 +116,7 @@ interface ISquad{
     cientist: Cientist;
 }
 
+// Classe do esquadrão que implementa interface ISquad
 class Squad implements ISquad{
     medic: Medic;
     cooker: Cooker;
@@ -140,7 +151,8 @@ class Squad implements ISquad{
     }
 }
 
-class Scenario{
+// Classe de cenários
+class Scenario {
     private biome: string
     private description: string
 
@@ -148,67 +160,53 @@ class Scenario{
         this.biome = biome
         this.description = description
     }
+}
 
-} // Cenários onde estarão os personagens
-
+// Classe do campo de batalha
 class Battlefield {
     private listScene:Array<Scenario> = []
     private listZombies: Array<Zombie> = []
     private listSquad: Array<Squad> = []
 
+    // Método para adicionar cena ao campo de batalha
     public addScene(scene: Scenario): void {
         this.listScene.push(scene)
     }
 
+    // Método para adicionar zumbi ao campo de batalha
     public addZombie(zombie: Zombie): void {
         this.listZombies.push(zombie)
     }
 
+    // Método para adicionar esquadrão ao campo de batalha
     public addSquad(squad: Squad): void {
         this.listSquad.push(squad)
     }
 
-
+    // Método para selecionar uma cena aleatória na lista
     private randScene(): Scenario {
         let rand = Math.floor(Math.random()*this.listScene.length)
         return this.listScene[rand]
     }
 
+    // Método para selecionar um zumbi aleatório da lista
     private randZombie(): Zombie {
         let rand = Math.floor(Math.random()*this.listZombies.length)
         return this.listZombies[rand]
     }
 
+    // Método para selecionar um personagem aleatório da lista
     private charSquad(): Character {
         let rand = Math.floor(Math.random()*this.listSquad.length)
         let squad = this.listSquad[rand]
         return squad.randChar()
     }
 
-    // compareChars(element2: Array<Character>) {
-    //     let rand = this.charSquad()
-    //     let confirmation = true
-
-    //     while(confirmation) {
-    //         for(let i = 0; i <= element2.length; i++) {
-    //             if(rand === element2[i]) {
-    //                 rand = this.charSquad()
-    //             } else {  
-    //                 confirmation = false;
-                    
-    //             }
-    //         }
-    //     }
-    //     confirmation = true
-    //     return rand
-    // }
-
-  
+    // Método que faz as rodadas da batalha
     public round() {
         let squad = this.listSquad[Math.floor(Math.random()*this.listSquad.length)]
         let scene = this.randScene()
         console.log(scene)
-        // let escapedChars: Array<Character> = []
         
         for(let i = 0; i < 10; i++) {
                             
@@ -234,15 +232,17 @@ class Battlefield {
                     console.log(randomChar.escape())
                     squad.removeCharacter(randomChar)
                 }                
-            }}, 500*i)
+            }}, 1000*i)
         }
     }
 
 }
 
+// Classe abstrata para os zumbis
 abstract class Zombie{
     abstract name: string
 
+    // Todo zumbi tem ataque e habilidade
     public attack(char: Character): string {
         return `The Zombie ${this.name} attacked ${char.name}`
     }
@@ -250,6 +250,7 @@ abstract class Zombie{
     abstract ability(scene?: Scenario): string
 }
 
+// Classe do zumbi comum que herda de Zombie
 class Normal extends Zombie{
     public name: string
     
@@ -262,6 +263,8 @@ class Normal extends Zombie{
         return `The zombie ${this.name} scratches.`
     }
 }
+
+// Classe do zumbi corredor que herda de Zombie
 class Runner extends Zombie{
     public name: string
     
@@ -274,6 +277,8 @@ class Runner extends Zombie{
         return `The Runner ${this.name} does "Katchau" for the battlefield.`
     }
 }
+
+// Classe do zumbi tanque que herda de Zombie
 class Tank extends Zombie{
     public name: string
     
@@ -286,6 +291,8 @@ class Tank extends Zombie{
         return `The Tank Zombie defends his territory`
     }
 }
+
+// Classe do zumbi explosivo que herda de Zombie
 class Explosive extends Zombie{
     public name: string
     
@@ -298,6 +305,8 @@ class Explosive extends Zombie{
         return `Instead of him doing "Katchau" he does "kaboom"`
     }
 }
+
+// Classe do cachorro zumbi que herda de Zombie
 class Dog extends Zombie{
     public name: string
     
@@ -310,6 +319,8 @@ class Dog extends Zombie{
         return `The Dog Zombie was bite.`
     }
 }
+
+// Classe do zumbi ácido que herda de Zombie
 class Acid extends Zombie{
     public name: string
     
@@ -323,7 +334,7 @@ class Acid extends Zombie{
     }
 }
 
-
+// Instanciando os personagens
 let cooker = new Cooker('Sponge Bob')
 let medic = new Medic('Desmond Doss')
 let sniper = new EliteSniper('John Wick')
@@ -331,6 +342,7 @@ let survivalist = new Survivalist('Rambo')
 let explorer = new Explorer('Bear Grills')
 let cientist = new Cientist('Heisemberg')
 
+// Instanciando os Zumbis
 let zombie = new Normal('Michael Jackson')
 let runner = new Runner('Thunder Marquinhos')
 let tank = new Tank('Scherman')
@@ -338,18 +350,23 @@ let explosive = new Explosive('Kamikaze')
 let dog = new Dog('Marley')
 let acid = new Acid('Ilon Mãsk')
 
+// Instanciando os cenários
 let city = new Scenario("Urban", "City Center")
 let forest = new Scenario("Forest", "Large Dense Forest")
 let farm = new Scenario("Farm Berry", "Rural Territory")
 
+// Instanciando o esquadrão
 let squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist)
 
+// Instanciando o Campo de Batalha
 let battle = new Battlefield()
 
+// Adicionando os cenários à batalha
 battle.addScene(city)
 battle.addScene(forest)
 battle.addScene(farm)
 
+// Adicionando os zumbis à batalha
 battle.addZombie(zombie)
 battle.addZombie(runner)
 battle.addZombie(tank)
@@ -357,10 +374,7 @@ battle.addZombie(explosive)
 battle.addZombie(dog)
 battle.addZombie(acid)
 
+// Adicionando o esquadrão à batalha 
 battle.addSquad(squad)
 
-// console.log(battle.round())
-// console.log(battle.randZombie())
-// console.log(battle.randScene())
-// console.log(battle.randSquad())
 battle.round()

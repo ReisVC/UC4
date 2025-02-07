@@ -14,20 +14,20 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+// Classe abstrata de personagem que implementa interface ICharacter
 var Character = /** @class */ (function () {
     function Character() {
     }
+    // Todo personagem terá ataque, fuga e habilidade
     Character.prototype.attack = function (enemies) {
         return "".concat(this.name, " attacked the zombie ").concat(enemies.name);
-    };
-    Character.prototype.defend = function (enemies) {
-        return "The ".concat(this.name, " defend himself from the zombie ").concat(enemies.name);
     };
     Character.prototype.escape = function () {
         return "The ".concat(this.name, " was escaped from horde of zombies");
     }; // Classe Abstrata
     return Character;
 }());
+// Classe do atirador que herda de personagem
 var EliteSniper = /** @class */ (function (_super) {
     __extends(EliteSniper, _super);
     function EliteSniper(name) {
@@ -40,6 +40,7 @@ var EliteSniper = /** @class */ (function (_super) {
     };
     return EliteSniper;
 }(Character));
+// Classe de médico que herda de personagem
 var Medic = /** @class */ (function (_super) {
     __extends(Medic, _super);
     function Medic(name) {
@@ -52,6 +53,7 @@ var Medic = /** @class */ (function (_super) {
     };
     return Medic;
 }(Character));
+// Classe de explorador que herda de personagem
 var Explorer = /** @class */ (function (_super) {
     __extends(Explorer, _super);
     function Explorer(name) {
@@ -64,6 +66,7 @@ var Explorer = /** @class */ (function (_super) {
     };
     return Explorer;
 }(Character));
+// Classe de sobrevivencialista que herda de personagem
 var Survivalist = /** @class */ (function (_super) {
     __extends(Survivalist, _super);
     function Survivalist(name) {
@@ -76,6 +79,7 @@ var Survivalist = /** @class */ (function (_super) {
     };
     return Survivalist;
 }(Character));
+// Classe de cozinheiro que herda de personagem
 var Cooker = /** @class */ (function (_super) {
     __extends(Cooker, _super);
     function Cooker(name) {
@@ -88,6 +92,7 @@ var Cooker = /** @class */ (function (_super) {
     };
     return Cooker;
 }(Character));
+// Classe de cientista que herda de personagem
 var Cientist = /** @class */ (function (_super) {
     __extends(Cientist, _super);
     function Cientist(name) {
@@ -100,6 +105,7 @@ var Cientist = /** @class */ (function (_super) {
     };
     return Cientist;
 }(Character));
+// Classe do esquadrão que implementa interface ISquad
 var Squad = /** @class */ (function () {
     function Squad(medic, cooker, sniper, survivalist, explorer, cientist) {
         this.listChar = [];
@@ -124,62 +130,55 @@ var Squad = /** @class */ (function () {
     };
     return Squad;
 }());
+// Classe de cenários
 var Scenario = /** @class */ (function () {
     function Scenario(biome, description) {
         this.biome = biome;
         this.description = description;
     }
     return Scenario;
-}()); // Cenários onde estarão os personagens
+}());
+// Classe do campo de batalha
 var Battlefield = /** @class */ (function () {
     function Battlefield() {
         this.listScene = [];
         this.listZombies = [];
         this.listSquad = [];
     }
+    // Método para adicionar cena ao campo de batalha
     Battlefield.prototype.addScene = function (scene) {
         this.listScene.push(scene);
     };
+    // Método para adicionar zumbi ao campo de batalha
     Battlefield.prototype.addZombie = function (zombie) {
         this.listZombies.push(zombie);
     };
+    // Método para adicionar esquadrão ao campo de batalha
     Battlefield.prototype.addSquad = function (squad) {
         this.listSquad.push(squad);
     };
+    // Método para selecionar uma cena aleatória na lista
     Battlefield.prototype.randScene = function () {
         var rand = Math.floor(Math.random() * this.listScene.length);
         return this.listScene[rand];
     };
+    // Método para selecionar um zumbi aleatório da lista
     Battlefield.prototype.randZombie = function () {
         var rand = Math.floor(Math.random() * this.listZombies.length);
         return this.listZombies[rand];
     };
+    // Método para selecionar um personagem aleatório da lista
     Battlefield.prototype.charSquad = function () {
         var rand = Math.floor(Math.random() * this.listSquad.length);
         var squad = this.listSquad[rand];
         return squad.randChar();
     };
-    // compareChars(element2: Array<Character>) {
-    //     let rand = this.charSquad()
-    //     let confirmation = true
-    //     while(confirmation) {
-    //         for(let i = 0; i <= element2.length; i++) {
-    //             if(rand === element2[i]) {
-    //                 rand = this.charSquad()
-    //             } else {  
-    //                 confirmation = false;
-    //             }
-    //         }
-    //     }
-    //     confirmation = true
-    //     return rand
-    // }
+    // Método que faz as rodadas da batalha
     Battlefield.prototype.round = function () {
         var _this = this;
         var squad = this.listSquad[Math.floor(Math.random() * this.listSquad.length)];
         var scene = this.randScene();
         console.log(scene);
-        // let escapedChars: Array<Character> = []
         for (var i = 0; i < 10; i++) {
             setTimeout(function () {
                 var randChar = Math.floor(Math.random() * 2);
@@ -206,19 +205,22 @@ var Battlefield = /** @class */ (function () {
                         squad.removeCharacter(randomChar);
                     }
                 }
-            }, 500 * i);
+            }, 1000 * i);
         }
     };
     return Battlefield;
 }());
+// Classe abstrata para os zumbis
 var Zombie = /** @class */ (function () {
     function Zombie() {
     }
+    // Todo zumbi tem ataque e habilidade
     Zombie.prototype.attack = function (char) {
         return "The Zombie ".concat(this.name, " attacked ").concat(char.name);
     };
     return Zombie;
 }());
+// Classe do zumbi comum que herda de Zombie
 var Normal = /** @class */ (function (_super) {
     __extends(Normal, _super);
     function Normal(name) {
@@ -231,6 +233,7 @@ var Normal = /** @class */ (function (_super) {
     };
     return Normal;
 }(Zombie));
+// Classe do zumbi corredor que herda de Zombie
 var Runner = /** @class */ (function (_super) {
     __extends(Runner, _super);
     function Runner(name) {
@@ -243,6 +246,7 @@ var Runner = /** @class */ (function (_super) {
     };
     return Runner;
 }(Zombie));
+// Classe do zumbi tanque que herda de Zombie
 var Tank = /** @class */ (function (_super) {
     __extends(Tank, _super);
     function Tank(name) {
@@ -255,6 +259,7 @@ var Tank = /** @class */ (function (_super) {
     };
     return Tank;
 }(Zombie));
+// Classe do zumbi explosivo que herda de Zombie
 var Explosive = /** @class */ (function (_super) {
     __extends(Explosive, _super);
     function Explosive(name) {
@@ -267,6 +272,7 @@ var Explosive = /** @class */ (function (_super) {
     };
     return Explosive;
 }(Zombie));
+// Classe do cachorro zumbi que herda de Zombie
 var Dog = /** @class */ (function (_super) {
     __extends(Dog, _super);
     function Dog(name) {
@@ -279,6 +285,7 @@ var Dog = /** @class */ (function (_super) {
     };
     return Dog;
 }(Zombie));
+// Classe do zumbi ácido que herda de Zombie
 var Acid = /** @class */ (function (_super) {
     __extends(Acid, _super);
     function Acid(name) {
@@ -291,35 +298,39 @@ var Acid = /** @class */ (function (_super) {
     };
     return Acid;
 }(Zombie));
+// Instanciando os personagens
 var cooker = new Cooker('Sponge Bob');
 var medic = new Medic('Desmond Doss');
 var sniper = new EliteSniper('John Wick');
 var survivalist = new Survivalist('Rambo');
 var explorer = new Explorer('Bear Grills');
 var cientist = new Cientist('Heisemberg');
+// Instanciando os Zumbis
 var zombie = new Normal('Michael Jackson');
 var runner = new Runner('Thunder Marquinhos');
 var tank = new Tank('Scherman');
 var explosive = new Explosive('Kamikaze');
 var dog = new Dog('Marley');
 var acid = new Acid('Ilon Mãsk');
+// Instanciando os cenários
 var city = new Scenario("Urban", "City Center");
 var forest = new Scenario("Forest", "Large Dense Forest");
 var farm = new Scenario("Farm Berry", "Rural Territory");
+// Instanciando o esquadrão
 var squad = new Squad(medic, cooker, sniper, survivalist, explorer, cientist);
+// Instanciando o Campo de Batalha
 var battle = new Battlefield();
+// Adicionando os cenários à batalha
 battle.addScene(city);
 battle.addScene(forest);
 battle.addScene(farm);
+// Adicionando os zumbis à batalha
 battle.addZombie(zombie);
 battle.addZombie(runner);
 battle.addZombie(tank);
 battle.addZombie(explosive);
 battle.addZombie(dog);
 battle.addZombie(acid);
+// Adicionando o esquadrão à batalha 
 battle.addSquad(squad);
-// console.log(battle.round())
-// console.log(battle.randZombie())
-// console.log(battle.randScene())
-// console.log(battle.randSquad())
 battle.round();
